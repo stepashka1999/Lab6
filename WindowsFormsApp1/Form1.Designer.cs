@@ -36,10 +36,17 @@
             this.vebCamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.motionDetectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.etalonMethodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.justDiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contoursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Play_button = new System.Windows.Forms.Button();
             this.Pause_button = new System.Windows.Forms.Button();
             this.FirstImageBox = new Emgu.CV.UI.ImageBox();
             this.ResultImageBox = new Emgu.CV.UI.ImageBox();
+            this.secondToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.foregroundMaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterMaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rectToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FirstImageBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResultImageBox)).BeginInit();
@@ -80,22 +87,49 @@
             // vebCamToolStripMenuItem
             // 
             this.vebCamToolStripMenuItem.Name = "vebCamToolStripMenuItem";
-            this.vebCamToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.vebCamToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.vebCamToolStripMenuItem.Text = "Web-Cam";
+            this.vebCamToolStripMenuItem.Click += new System.EventHandler(this.vebCamToolStripMenuItem_Click);
             // 
             // motionDetectToolStripMenuItem
             // 
             this.motionDetectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.etalonMethodToolStripMenuItem});
+            this.etalonMethodToolStripMenuItem,
+            this.secondToolStripMenuItem});
             this.motionDetectToolStripMenuItem.Name = "motionDetectToolStripMenuItem";
             this.motionDetectToolStripMenuItem.Size = new System.Drawing.Size(95, 20);
             this.motionDetectToolStripMenuItem.Text = "Motion Detect";
             // 
             // etalonMethodToolStripMenuItem
             // 
+            this.etalonMethodToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.justDiffToolStripMenuItem,
+            this.contoursToolStripMenuItem,
+            this.rectToolStripMenuItem});
             this.etalonMethodToolStripMenuItem.Name = "etalonMethodToolStripMenuItem";
-            this.etalonMethodToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.etalonMethodToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.etalonMethodToolStripMenuItem.Text = "Etalon Method";
+            // 
+            // justDiffToolStripMenuItem
+            // 
+            this.justDiffToolStripMenuItem.Name = "justDiffToolStripMenuItem";
+            this.justDiffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.justDiffToolStripMenuItem.Text = "Just Diff";
+            this.justDiffToolStripMenuItem.Click += new System.EventHandler(this.justDiffToolStripMenuItem_Click);
+            // 
+            // contoursToolStripMenuItem
+            // 
+            this.contoursToolStripMenuItem.Name = "contoursToolStripMenuItem";
+            this.contoursToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.contoursToolStripMenuItem.Text = "Contours";
+            this.contoursToolStripMenuItem.Click += new System.EventHandler(this.contoursToolStripMenuItem_Click);
+            // 
+            // rectToolStripMenuItem
+            // 
+            this.rectToolStripMenuItem.Name = "rectToolStripMenuItem";
+            this.rectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rectToolStripMenuItem.Text = "Rect";
+            this.rectToolStripMenuItem.Click += new System.EventHandler(this.rectToolStripMenuItem_Click);
             // 
             // Play_button
             // 
@@ -135,6 +169,37 @@
             this.ResultImageBox.TabIndex = 4;
             this.ResultImageBox.TabStop = false;
             // 
+            // secondToolStripMenuItem
+            // 
+            this.secondToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.foregroundMaskToolStripMenuItem,
+            this.filterMaskToolStripMenuItem,
+            this.rectToolStripMenuItem1});
+            this.secondToolStripMenuItem.Name = "secondToolStripMenuItem";
+            this.secondToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.secondToolStripMenuItem.Text = "Second Methods";
+            // 
+            // foregroundMaskToolStripMenuItem
+            // 
+            this.foregroundMaskToolStripMenuItem.Name = "foregroundMaskToolStripMenuItem";
+            this.foregroundMaskToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.foregroundMaskToolStripMenuItem.Text = "foregroundMask";
+            this.foregroundMaskToolStripMenuItem.Click += new System.EventHandler(this.foregroundMaskToolStripMenuItem_Click);
+            // 
+            // filterMaskToolStripMenuItem
+            // 
+            this.filterMaskToolStripMenuItem.Name = "filterMaskToolStripMenuItem";
+            this.filterMaskToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.filterMaskToolStripMenuItem.Text = "Filter Mask";
+            this.filterMaskToolStripMenuItem.Click += new System.EventHandler(this.filterMaskToolStripMenuItem_Click);
+            // 
+            // rectToolStripMenuItem1
+            // 
+            this.rectToolStripMenuItem1.Name = "rectToolStripMenuItem1";
+            this.rectToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.rectToolStripMenuItem1.Text = "Drow Rect";
+            this.rectToolStripMenuItem1.Click += new System.EventHandler(this.rectToolStripMenuItem1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -170,6 +235,13 @@
         private System.Windows.Forms.Button Pause_button;
         private Emgu.CV.UI.ImageBox FirstImageBox;
         private Emgu.CV.UI.ImageBox ResultImageBox;
+        private System.Windows.Forms.ToolStripMenuItem justDiffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem contoursToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem secondToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem foregroundMaskToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filterMaskToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rectToolStripMenuItem1;
     }
 }
 
