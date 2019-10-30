@@ -49,11 +49,17 @@ namespace WindowsFormsApp1
         {
             Capture.Retrieve(frame);
         }
+
+        public int GetFrameRate()
+        {
+            var frameRate = Convert.ToInt32(Capture.GetCaptureProperty(CapProp.Fps));
+            return frameRate;
+        }
         
         //Not Working
-        public Image<Bgr,byte> QueryFrame()
+        public Mat QueryFrame()
         {
-            return Capture.QueryFrame().ToImage<Bgr,byte>();
+            return Capture.QueryFrame();
         }
 
         public void Restart(int nF=0)

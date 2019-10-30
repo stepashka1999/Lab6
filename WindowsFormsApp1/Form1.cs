@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp1
@@ -63,10 +64,12 @@ namespace WindowsFormsApp1
             }
             else Detector = new MotionDetector(null, true);
             //Subscribe
-            Detector.Sub(ImageBoxUbdater);
-
+            if (!FPS_cb.Checked) Detector.Sub(ImageBoxUbdater);
+            
             Play_button.Visible = true;
             Pause_button.Visible = true;
+
+            if(!WebCam) Timer.Interval = Detector.GetFrameRate();
         }
 
         private void ImageBoxUbdater(object sender, EventArgs e)
@@ -113,7 +116,6 @@ namespace WindowsFormsApp1
             }
             else//Restart after Video End
             {
-                MessageBox.Show("Видео закончилось");
                 Detector.Pause();
                 Detector.Restart();
             }
@@ -122,13 +124,17 @@ namespace WindowsFormsApp1
         private void Play_button_Click(object sender, EventArgs e)
         {
             Play = true;
-            Detector.Play();            
+            
+            if (FPS_cb.Checked) Timer.Start();
+            else Detector.Play();
         }
 
         private void Pause_button_Click(object sender, EventArgs e)
         {
-            Detector.Pause();
             Play = false;
+
+            if (FPS_cb.Checked) Timer.Stop();
+            else Detector.Pause();
         }
 
         private void justDiffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -167,6 +173,67 @@ namespace WindowsFormsApp1
         private void vebCamToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Load(true);
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {   
+            var frame = Detector.QueryFrame();
+
+            if (frame.Bitmap != null)
+            {
+                var image = frame.ToImage<Bgr, byte>();
+
+                var grayImage = image.Copy().Convert<Gray, byte>();
+
+                if (Play)
+                {
+                    FirstImageBox.Image = image.Copy().Resize(FirstImageBox.Width, FirstImageBox.Height, Emgu.CV.CvEnum.Inter.Linear);
+                }
+
+
+                switch (Func)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        ResultImageBox.Image = Detector.EtalonMethod(grayImage, background).Resize(ResultImageBox.Width, ResultImageBox.Height, Emgu.CV.CvEnum.Inter.Linear);
+                        break;
+                    case 2:
+                        ResultImageBox.Image = Detector.DrawContours(Detector.EtalonMethod(grayImage, background), image.Copy()).Resize(ResultImageBox.Width, ResultImageBox.Height, Emgu.CV.CvEnum.Inter.Linear);
+                        break;
+                    case 3:
+                        ResultImageBox.Image = Detector.DrawContours(Detector.EtalonMethod(grayImage, background), image.Copy(), 2).Resize(ResultImageBox.Width, ResultImageBox.Height, Emgu.CV.CvEnum.Inter.Linear);
+                        break;
+                    case 4:
+                        ResultImageBox.Image = Detector.ForegroundMask(grayImage).Resize(ResultImageBox.Width, ResultImageBox.Height, Emgu.CV.CvEnum.Inter.Linear);
+                        break;
+                    case 5:
+                        ResultImageBox.Image = Detector.FilterMask(Detector.ForegroundMask(grayImage)).Resize(ResultImageBox.Width, ResultImageBox.Height, Emgu.CV.CvEnum.Inter.Linear);
+                        break;
+                    case 6:
+                        ResultImageBox.Image = Detector.DrowContours2(Detector.FilterMask(Detector.ForegroundMask(grayImage)), image).Resize(ResultImageBox.Width, ResultImageBox.Height, Emgu.CV.CvEnum.Inter.Linear);
+                        break;
+                }
+            }
+            else//Restart after Video End
+            {
+                Timer.Stop();
+                Detector.Restart();
+            }
+        }
+
+        private void FPS_cb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (FPS_cb.Checked)
+            {
+                Detector.Pause();
+                Detector.UnSub(ImageBoxUbdater);
+            }
+            else
+            {
+                Detector.Sub(ImageBoxUbdater);
+                Timer.Stop();
+            }
         }
     }
 }

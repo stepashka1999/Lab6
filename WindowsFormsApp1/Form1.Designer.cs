@@ -39,14 +39,16 @@
             this.justDiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contoursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Play_button = new System.Windows.Forms.Button();
-            this.Pause_button = new System.Windows.Forms.Button();
-            this.FirstImageBox = new Emgu.CV.UI.ImageBox();
-            this.ResultImageBox = new Emgu.CV.UI.ImageBox();
             this.secondToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.foregroundMaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterMaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rectToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Play_button = new System.Windows.Forms.Button();
+            this.Pause_button = new System.Windows.Forms.Button();
+            this.FirstImageBox = new Emgu.CV.UI.ImageBox();
+            this.ResultImageBox = new Emgu.CV.UI.ImageBox();
+            this.Timer = new System.Windows.Forms.Timer(this.components);
+            this.FPS_cb = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FirstImageBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResultImageBox)).BeginInit();
@@ -87,7 +89,7 @@
             // vebCamToolStripMenuItem
             // 
             this.vebCamToolStripMenuItem.Name = "vebCamToolStripMenuItem";
-            this.vebCamToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vebCamToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.vebCamToolStripMenuItem.Text = "Web-Cam";
             this.vebCamToolStripMenuItem.Click += new System.EventHandler(this.vebCamToolStripMenuItem_Click);
             // 
@@ -131,6 +133,37 @@
             this.rectToolStripMenuItem.Text = "Rect";
             this.rectToolStripMenuItem.Click += new System.EventHandler(this.rectToolStripMenuItem_Click);
             // 
+            // secondToolStripMenuItem
+            // 
+            this.secondToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.foregroundMaskToolStripMenuItem,
+            this.filterMaskToolStripMenuItem,
+            this.rectToolStripMenuItem1});
+            this.secondToolStripMenuItem.Name = "secondToolStripMenuItem";
+            this.secondToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.secondToolStripMenuItem.Text = "Second Methods";
+            // 
+            // foregroundMaskToolStripMenuItem
+            // 
+            this.foregroundMaskToolStripMenuItem.Name = "foregroundMaskToolStripMenuItem";
+            this.foregroundMaskToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.foregroundMaskToolStripMenuItem.Text = "foregroundMask";
+            this.foregroundMaskToolStripMenuItem.Click += new System.EventHandler(this.foregroundMaskToolStripMenuItem_Click);
+            // 
+            // filterMaskToolStripMenuItem
+            // 
+            this.filterMaskToolStripMenuItem.Name = "filterMaskToolStripMenuItem";
+            this.filterMaskToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.filterMaskToolStripMenuItem.Text = "Filter Mask";
+            this.filterMaskToolStripMenuItem.Click += new System.EventHandler(this.filterMaskToolStripMenuItem_Click);
+            // 
+            // rectToolStripMenuItem1
+            // 
+            this.rectToolStripMenuItem1.Name = "rectToolStripMenuItem1";
+            this.rectToolStripMenuItem1.Size = new System.Drawing.Size(162, 22);
+            this.rectToolStripMenuItem1.Text = "Drow Rect";
+            this.rectToolStripMenuItem1.Click += new System.EventHandler(this.rectToolStripMenuItem1_Click);
+            // 
             // Play_button
             // 
             this.Play_button.Location = new System.Drawing.Point(322, 27);
@@ -169,42 +202,27 @@
             this.ResultImageBox.TabIndex = 4;
             this.ResultImageBox.TabStop = false;
             // 
-            // secondToolStripMenuItem
+            // Timer
             // 
-            this.secondToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.foregroundMaskToolStripMenuItem,
-            this.filterMaskToolStripMenuItem,
-            this.rectToolStripMenuItem1});
-            this.secondToolStripMenuItem.Name = "secondToolStripMenuItem";
-            this.secondToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.secondToolStripMenuItem.Text = "Second Methods";
+            this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
-            // foregroundMaskToolStripMenuItem
+            // FPS_cb
             // 
-            this.foregroundMaskToolStripMenuItem.Name = "foregroundMaskToolStripMenuItem";
-            this.foregroundMaskToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.foregroundMaskToolStripMenuItem.Text = "foregroundMask";
-            this.foregroundMaskToolStripMenuItem.Click += new System.EventHandler(this.foregroundMaskToolStripMenuItem_Click);
-            // 
-            // filterMaskToolStripMenuItem
-            // 
-            this.filterMaskToolStripMenuItem.Name = "filterMaskToolStripMenuItem";
-            this.filterMaskToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.filterMaskToolStripMenuItem.Text = "Filter Mask";
-            this.filterMaskToolStripMenuItem.Click += new System.EventHandler(this.filterMaskToolStripMenuItem_Click);
-            // 
-            // rectToolStripMenuItem1
-            // 
-            this.rectToolStripMenuItem1.Name = "rectToolStripMenuItem1";
-            this.rectToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.rectToolStripMenuItem1.Text = "Drow Rect";
-            this.rectToolStripMenuItem1.Click += new System.EventHandler(this.rectToolStripMenuItem1_Click);
+            this.FPS_cb.AutoSize = true;
+            this.FPS_cb.Location = new System.Drawing.Point(364, 7);
+            this.FPS_cb.Name = "FPS_cb";
+            this.FPS_cb.Size = new System.Drawing.Size(71, 17);
+            this.FPS_cb.TabIndex = 5;
+            this.FPS_cb.Text = "Real FPS";
+            this.FPS_cb.UseVisualStyleBackColor = true;
+            this.FPS_cb.CheckedChanged += new System.EventHandler(this.FPS_cb_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.FPS_cb);
             this.Controls.Add(this.ResultImageBox);
             this.Controls.Add(this.FirstImageBox);
             this.Controls.Add(this.Pause_button);
@@ -242,6 +260,8 @@
         private System.Windows.Forms.ToolStripMenuItem foregroundMaskToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterMaskToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rectToolStripMenuItem1;
+        private System.Windows.Forms.Timer Timer;
+        private System.Windows.Forms.CheckBox FPS_cb;
     }
 }
 
